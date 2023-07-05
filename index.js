@@ -7,8 +7,8 @@ async function start() {
     const url = "https://www.hdmnetwork.be/";
     await page.goto(url);
 
-    await page.type("#login", "sami.abdulhalim@hetic.net");
-    await page.type("#password", "Alzaimer.70");
+    await page.type("#login", "ton mail ");
+    await page.type("#password", "ton mdp");
 
     await Promise.all([
         page.waitForNavigation({ waitUntil: "networkidle0" }),
