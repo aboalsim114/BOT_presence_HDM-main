@@ -5,8 +5,8 @@ async function start() {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     const url = "https://www.hdmnetwork.be/";
+    await page.setDefaultNavigationTimeout(0);
     await page.goto(url);
-
     await page.type("#login", "sami.abdulhalim@hetic.net");
     await page.type("#password", "Alzaimer.70");
 
@@ -15,7 +15,7 @@ async function start() {
         page.click("#boutonLogIn"),
     ]);
 
-    await page.waitForSelector("#menuContainer > .titreMenu", { timeout: 60000 });
+    await page.waitForSelector("#menuContainer > .titreMenu", { timeout: 0 });
     await page.evaluate(() => {
         let titreMenu = document.querySelector("#menuContainer > .titreMenu");
         if (titreMenu) {
@@ -25,10 +25,10 @@ async function start() {
         }
     });
 
-    await page.waitForSelector('div[data-menu="stage"]', { timeout: 60000 });
+    await page.waitForSelector('div[data-menu="stage"]', { timeout: 0 });
     await page.click("#menuContainer > div:nth-child(4) > p");
 
-    // Calculate the target timestamps
+
     const targetTimestamps = [
         { hour: 8, minute: 18 },
         { hour: 12, minute: 0 },
@@ -65,7 +65,7 @@ async function start() {
                         alertCloseButton && alertCloseButton.click();
                     }
                 });
-                break; // Exit the loop after clicking the buttons
+                break;
             }
         }
 
