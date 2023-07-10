@@ -8,8 +8,8 @@ async function start() {
     await page.setDefaultNavigationTimeout(0);
     await page.goto(url);
 
-    await page.type("#login", "sami.abdulhalim@hetic.net");
-    await page.type("#password", "Alzaimer.70");
+    await page.type("#login", "email"); // email
+    await page.type("#password", "mot de passe"); // mot de passe
 
 
     await Promise.all([
