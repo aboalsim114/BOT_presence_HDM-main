@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const fs = require("fs/promises");
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, timeout: 10000, protocolTimeout: 60000 });
     const page = await browser.newPage();
     const url = "https://www.hdmnetwork.be/";
     await page.setDefaultNavigationTimeout(0);
@@ -33,7 +33,7 @@ async function start() {
 
     const targetTimestamps = [
         { hour: 8, minute: 18 },
-        { hour: 12, minute: 0 },
+        { hour: 12, minute: 2 },
         { hour: 12, minute: 45 },
         { hour: 16, minute: 30 },
     ];
