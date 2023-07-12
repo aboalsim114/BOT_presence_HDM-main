@@ -1,15 +1,16 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs/promises");
+const cron = require("node-cron");
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: true, timeout: 10000, protocolTimeout: 60000 });
+    const browser = await puppeteer.launch({ headless: true, timeout: 30000, protocolTimeout: 90000 });
     const page = await browser.newPage();
     const url = "https://www.hdmnetwork.be/";
     await page.setDefaultNavigationTimeout(0);
-    await page.goto(url);
+    await page.goto(url, { waitUntil: 'networkidle0' });
 
-    await page.type("#login", "email"); // email
-    await page.type("#password", "mot de passe"); // mot de passe
+    await page.type("#login", "sami.abdulhalim@hetic.net"); // email
+    await page.type("#password", "Alzaimer.70"); // mot de passe
 
 
     await Promise.all([
@@ -17,7 +18,8 @@ async function start() {
         page.click("#boutonLogIn"),
     ]);
 
-    await page.waitForSelector("#menuContainer > .titreMenu", { timeout: 0 });
+    await page.waitForSelector("#menuContainer > .titreMenu", { timeout: 90000 });
+    page.waitForNavigation({ waitUntil: 'networkidle0' }) // Attendre que la navigation soit terminée
     await page.evaluate(() => {
         let titreMenu = document.querySelector("#menuContainer > .titreMenu");
         if (titreMenu) {
@@ -26,7 +28,7 @@ async function start() {
             console.log(".titreMenu not found");
         }
     });
-
+    page.waitForNavigation({ waitUntil: 'networkidle0' }) // Attendre que la navigation soit terminée
     await page.waitForSelector('div[data-menu="stage"]', { timeout: 0 });
     await page.click("#menuContainer > div:nth-child(4) > p");
 
@@ -77,4 +79,4 @@ async function start() {
     await browser.close();
 }
 
-setInterval(start, 5 * 1000);
+cron.schedule("*/5 * * * * *", start);
